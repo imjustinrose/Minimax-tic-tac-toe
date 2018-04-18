@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  GameController.swift
 //  tictactoe
 //
 //  Created by Justin Rose on 4/17/18.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class GameController: UIViewController {
     
     @IBOutlet weak var boardView: BoardView!
     @IBOutlet weak var helperLabel: UILabel!
@@ -16,6 +16,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupCallbacks()
+    }
+    
+    func setupCallbacks() {
         Game.shared.aiSelected = { location in
             self.placeMarker(at: location)
         }
@@ -40,13 +44,15 @@ class ViewController: UIViewController {
             self.boardView.isUserInteractionEnabled = player.isHuman ? true : false
         }
     }
+    
     @IBAction func restartGame(_ sender: UIButton) {
         Game.shared.restart()
         clearBoard()
     }
 }
 
-extension ViewController {
+// MARK: - Board
+extension GameController {
     private func placeMarker(at location: Int) {
         for horizontalStackView in self.boardView.subviews {
             for verticalStackView in horizontalStackView.subviews {
